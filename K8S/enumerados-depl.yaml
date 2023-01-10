@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enumerados-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: enumeradoservice
+  template:
+    metadata:
+      labels:
+        app: enumeradoservice
+    spec:
+      containers:
+        - name: enumeradoservice
+          image: rualitux/enumeradoservice:latest
