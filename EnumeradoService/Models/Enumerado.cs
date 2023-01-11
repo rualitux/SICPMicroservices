@@ -9,5 +9,6 @@ namespace EnumeradoService.Models
         public string Valor { get; set; }
         public ICollection<EnumeradoJerarquia>? Ancestros { get; set; }
         public ICollection<EnumeradoJerarquia>? Descendientes { get; set; }
+
     }
 }

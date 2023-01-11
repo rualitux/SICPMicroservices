@@ -2,6 +2,7 @@
 using EnumeradoService.Dtos;
 using EnumeradoService.Interfaces;
 using EnumeradoService.Models;
+using EnumeradoService.SyncDataServices.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnumeradoService.Controllers
@@ -12,11 +13,16 @@ namespace EnumeradoService.Controllers
     {
         private readonly IEnumeradoRepository _repository;
         private readonly IMapper _mapper;
+        private readonly IInventarioDataClient _inventarioDataClient;
 
-        public EnumeradosController(IEnumeradoRepository repository, IMapper mapper)
+        public EnumeradosController(
+            IEnumeradoRepository repository, 
+            IMapper mapper,
+            IInventarioDataClient inventarioDataClient)
         {
             _repository = repository;
             _mapper = mapper;
+            _inventarioDataClient = inventarioDataClient;
         }
         [HttpGet]
         public ActionResult<IEnumerable<EnumeradoReadDto>> GetEnumerados()
@@ -37,13 +43,21 @@ namespace EnumeradoService.Controllers
           
         }
         [HttpPost]
-        public ActionResult<EnumeradoReadDto> CreateEnumerado(EnumeradoCreateDto enumeradoCreateDto)
+        public async Task<ActionResult<EnumeradoReadDto>> CreateEnumerado(EnumeradoCreateDto enumeradoCreateDto)
         {
             var enumeradoModel = _mapper.Map<Enumerado>(enumeradoCreateDto);
             _repository.CreateEnumerado(enumeradoModel);
             _repository.Save();
 
             var enumeradoReadDto = _mapper.Map<EnumeradoReadDto>(enumeradoModel);
+            try
+            {
+                await _inventarioDataClient.SendEnumeradoToInventario(enumeradoReadDto);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"No se pudo mandar sincronicamente: {ex.Message}");
+            }
             return CreatedAtRoute(nameof(GetEnumeradoById), new { Id = enumeradoReadDto.Id }, enumeradoReadDto);
         }
 

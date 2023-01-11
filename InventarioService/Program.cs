@@ -1,16 +1,16 @@
-using EnumeradoService.Data;
-using EnumeradoService.Interfaces;
-using EnumeradoService.Repository;
-using EnumeradoService.SyncDataServices.Http;
+using InventarioService.Data;
+using InventarioService.Interfaces;
+using InventarioService.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+
 builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseInMemoryDatabase("InMem"));
-builder.Services.AddScoped<IEnumeradoRepository, EnumeradoRepository>();
-builder.Services.AddHttpClient<IInventarioDataClient, HttpInventarioDataClient>();
+builder.Services.AddScoped<IBienPatrimonialRepository, BienPatrimonialRepository>();
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -31,6 +31,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-DbCalata.PrepPopulation(app);
+PrepDb.PrepPopulation(app);
 
 app.Run();
