@@ -27,8 +27,8 @@ namespace InventarioService.Controllers
         [HttpPost]
         public ActionResult testInboundConnection()
         {
-            Console.WriteLine("--> InboundPost #");
-            return Ok("Inbound test from EnumeradosC");
+            Console.WriteLine("POST entrante de Enumerados");
+            return Ok("entrante test");
         }
     }
 }

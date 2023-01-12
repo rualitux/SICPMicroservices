@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnumeradoService", "EnumeradoService\EnumeradoService.csproj", "{176DCE32-5E19-44D6-A7D5-4788DDDF8CE9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventarioService", "InventarioService\InventarioService.csproj", "{D747B0EB-9973-46DE-B335-F0DFD5F81CCD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K8S", "K8S", "{4E31DACE-294D-4CC1-A242-03D76484FFAF}"
+	ProjectSection(SolutionItems) = preProject
+		K8S\enumerados-depl.yaml = K8S\enumerados-depl.yaml
+		K8S\enumerados-np-srv.yaml = K8S\enumerados-np-srv.yaml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{176DCE32-5E19-44D6-A7D5-4788DDDF8CE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{176DCE32-5E19-44D6-A7D5-4788DDDF8CE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{176DCE32-5E19-44D6-A7D5-4788DDDF8CE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{176DCE32-5E19-44D6-A7D5-4788DDDF8CE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D747B0EB-9973-46DE-B335-F0DFD5F81CCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D747B0EB-9973-46DE-B335-F0DFD5F81CCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D747B0EB-9973-46DE-B335-F0DFD5F81CCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D747B0EB-9973-46DE-B335-F0DFD5F81CCD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E965D20D-A3C3-4C17-BB75-77EB21F7766A}
+	EndGlobalSection
+EndGlobal

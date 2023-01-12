@@ -56,7 +56,7 @@ namespace EnumeradoService.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"No se pudo mandar sincronicamente: {ex.Message}");
+                Console.WriteLine($"No se pudo mandar sync: {ex.Message}");
             }
             return CreatedAtRoute(nameof(GetEnumeradoById), new { Id = enumeradoReadDto.Id }, enumeradoReadDto);
         }

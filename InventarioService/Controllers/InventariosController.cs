@@ -40,8 +40,8 @@ namespace InventarioService.Controllers
             return NotFound();
 
         }
-
-        [HttpPost]
+        
+        [HttpPost(Name = "CrearBienPorEnumerado")]
         public ActionResult<BienPatrimonialReadDto> CrearBienPorEnumerado(int enumeradoId, BienPatrimonialCreateDto bienCreateDto)
         {
             Console.WriteLine($"Creando para categoría: {enumeradoId}");
@@ -55,7 +55,8 @@ namespace InventarioService.Controllers
             Console.WriteLine("Hasta aquí guardó jiji");
             var bienReadDto = _mapper.Map<BienPatrimonialReadDto>(bien);
             //return CreatedAtRoute(nameof(GetBienById), new { Id = bienReadDto.Id }, bienReadDto);
-            return Ok();
+            //return Ok("Checar en el GET nomássssssss");
+            return CreatedAtAction("CrearBienPorEnumerado", bienReadDto);
         }
 
     }
