@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using EnumeradoService.AsyncDataServices;
 using EnumeradoService.Dtos;
 using EnumeradoService.Interfaces;
 using EnumeradoService.Models;
+using EnumeradoService.SyncDataServices.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnumeradoService.Controllers
@@ -12,11 +14,19 @@ namespace EnumeradoService.Controllers
     {
         private readonly IEnumeradoRepository _repository;
         private readonly IMapper _mapper;
+        private readonly IInventarioDataClient _inventarioDataClient;
+        private readonly IMessageBusClient _messageBusClient;
 
-        public EnumeradosController(IEnumeradoRepository repository, IMapper mapper)
+        public EnumeradosController(
+            IEnumeradoRepository repository, 
+            IMapper mapper,
+            IInventarioDataClient inventarioDataClient,
+            IMessageBusClient messageBusClient)
         {
             _repository = repository;
             _mapper = mapper;
+            _inventarioDataClient = inventarioDataClient;
+            _messageBusClient = messageBusClient;
         }
         [HttpGet]
         public ActionResult<IEnumerable<EnumeradoReadDto>> GetEnumerados()
@@ -37,13 +47,34 @@ namespace EnumeradoService.Controllers
           
         }
         [HttpPost]
-        public ActionResult<EnumeradoReadDto> CreateEnumerado(EnumeradoCreateDto enumeradoCreateDto)
+        public async Task<ActionResult<EnumeradoReadDto>> CreateEnumerado(EnumeradoCreateDto enumeradoCreateDto)
         {
             var enumeradoModel = _mapper.Map<Enumerado>(enumeradoCreateDto);
             _repository.CreateEnumerado(enumeradoModel);
             _repository.Save();
 
             var enumeradoReadDto = _mapper.Map<EnumeradoReadDto>(enumeradoModel);
+            //Sincrono
+            try
+            {
+                await _inventarioDataClient.SendEnumeradoToInventario(enumeradoReadDto);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"No se pudo mandar sync: {ex.Message}");
+            }
+            //Asincrono (RabbitMQ)
+            try
+            {
+                var enumeradoPublishedDto = _mapper.Map<EnumeradoPublishedDto>(enumeradoReadDto);
+                enumeradoPublishedDto.Event = "enumerado_Published";
+                _messageBusClient.PublicarEnumerado(enumeradoPublishedDto);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"No se pudo mandar Async: {ex.Message}");
+
+            }
             return CreatedAtRoute(nameof(GetEnumeradoById), new { Id = enumeradoReadDto.Id }, enumeradoReadDto);
         }
 

@@ -1,24 +1,26 @@
-using EnumeradoService.AsyncDataServices;
-using EnumeradoService.Data;
-using EnumeradoService.Interfaces;
-using EnumeradoService.Repository;
-using EnumeradoService.SyncDataServices.Http;
+using InventarioService.AyncDataServices;
+using InventarioService.Data;
+using InventarioService.EventProcesamiento;
+using InventarioService.Interfaces;
+using InventarioService.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+
 builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseInMemoryDatabase("InMem"));
-builder.Services.AddScoped<IEnumeradoRepository, EnumeradoRepository>();
-builder.Services.AddHttpClient<IInventarioDataClient, HttpInventarioDataClient>();
-//una conexión para toda la aplicación
-builder.Services.AddSingleton<IMessageBusClient, MessageBusClient>();
+builder.Services.AddScoped<IBienPatrimonialRepository, BienPatrimonialRepository>();
 builder.Services.AddControllers();
+builder.Services.AddHostedService<MessageBusSubscriber>();
+builder.Services.AddSingleton<IEventProcesador, EventProcesador>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -33,6 +35,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-DbCalata.PrepPopulation(app);
+PrepDb.PrepPopulation(app);
 
 app.Run();

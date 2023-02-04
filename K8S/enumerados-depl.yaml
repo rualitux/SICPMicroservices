@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enumerados-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: enumeradoservice
+  template:
+    metadata:
+      labels:
+        app: enumeradoservice
+    spec:
+      containers:
+        - name: enumeradoservice
+          image: rualitux/enumeradoservice:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: enumerados-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: enumeradoservice
+  ports:
+  - name: enumeradoservice
+    protocol: TCP
+    port: 80
+    targetPort: 80
+     
