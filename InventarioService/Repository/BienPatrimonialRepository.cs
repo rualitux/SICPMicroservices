@@ -41,6 +41,12 @@ namespace InventarioService.Repository
             return _context.Enumerados.Any(p => p.Id == enumeradoId);
         }
 
+        public bool EnumeradoExternoExiste(int externalEnumeradoId)
+        {
+            return _context.Enumerados.Any(p => p.ExternalId == externalEnumeradoId);
+
+        }
+
         public IEnumerable<BienPatrimonial> GetAllBienes()
         {
             return _context.BienesPatrimoniales.ToList();

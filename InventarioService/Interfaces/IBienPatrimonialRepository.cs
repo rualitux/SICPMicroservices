@@ -10,6 +10,7 @@ namespace InventarioService.Interfaces
         IEnumerable<Enumerado> GetAllEnumerados();
         void CreateEnumerado(Enumerado enumerado);
         bool EnumeradoExists(int enumeradoId);
+        bool EnumeradoExternoExiste(int externalEnumeradoId);
 
         //Bienes patrimoniales
         IEnumerable<BienPatrimonial> GetBienesForEnumerados (int enumeradoId);

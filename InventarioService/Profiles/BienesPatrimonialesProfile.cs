@@ -11,7 +11,9 @@ namespace InventarioService.Profiles
             CreateMap<Enumerado, EnumeradoReadDto>();
             CreateMap<BienPatrimonial, BienPatrimonialReadDto > ();
             CreateMap<BienPatrimonialCreateDto, BienPatrimonial>();
-
+            CreateMap<EnumeradoPublishedDto, Enumerado>()
+                .ForMember(destino => destino.ExternalId, 
+                opt => opt.MapFrom(fuente => fuente.Id));
         }
     }
 }

@@ -1,4 +1,6 @@
+using InventarioService.AyncDataServices;
 using InventarioService.Data;
+using InventarioService.EventProcesamiento;
 using InventarioService.Interfaces;
 using InventarioService.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +14,8 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseInMemoryDatabase("InMem"));
 builder.Services.AddScoped<IBienPatrimonialRepository, BienPatrimonialRepository>();
 builder.Services.AddControllers();
+builder.Services.AddHostedService<MessageBusSubscriber>();
+builder.Services.AddSingleton<IEventProcesador, EventProcesador>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

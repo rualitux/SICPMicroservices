@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K8S", "K8S", "{4E31DACE-294
 	ProjectSection(SolutionItems) = preProject
 		K8S\enumerados-depl.yaml = K8S\enumerados-depl.yaml
 		K8S\enumerados-np-srv.yaml = K8S\enumerados-np-srv.yaml
+		K8S\inventarios-depl.yaml = K8S\inventarios-depl.yaml
 	EndProjectSection
 EndProject
 Global

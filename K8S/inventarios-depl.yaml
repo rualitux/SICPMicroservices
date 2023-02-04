@@ -1,32 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: enumerados-depl
+  name: inventarios-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: enumeradoservice
+      app: inventarioservice
   template:
     metadata:
       labels:
-        app: enumeradoservice
+        app: inventarioservice
     spec:
       containers:
-        - name: enumeradoservice
-          image: rualitux/enumeradoservice:latest
+        - name: inventarioservice
+          image: rualitux/inventarioservice:latest
 ---
 apiVersion: v1
 kind: Service
 metadata:
-    name: enumerados-clusterip-srv
+    name: inventarios-clusterip-srv
 spec:
   type: ClusterIP
   selector:
-    app: enumeradoservice
+    app: inventarioservice
   ports:
-  - name: enumeradoservice
+  - name: inventarioservice
     protocol: TCP
     port: 80
     targetPort: 80
-     

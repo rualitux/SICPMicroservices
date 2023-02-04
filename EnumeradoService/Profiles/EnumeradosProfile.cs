@@ -10,6 +10,7 @@ namespace EnumeradoService.Profiles
         {
             CreateMap<Enumerado, EnumeradoReadDto>();
             CreateMap<EnumeradoCreateDto, Enumerado>();
+            CreateMap<EnumeradoReadDto, EnumeradoPublishedDto>();
         }
     }
 }
