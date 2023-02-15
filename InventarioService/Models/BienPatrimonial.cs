@@ -13,5 +13,8 @@
         public int EnumeradoId { get; set; }
         public string? Categoria { get; set; }
         public Enumerado Enumerado { get; set; }
+        public string? ProcedimientoNombre { get; set; }
+        public int ProcedimientoId { get; set; }
+        public Procedimiento? Procedimiento { get; set; }
     }
 }

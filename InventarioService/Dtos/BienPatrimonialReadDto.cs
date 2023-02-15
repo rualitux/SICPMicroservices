@@ -11,5 +11,8 @@
         public string? AtributoExtra { get; set; }
         public string? Observacion { get; set; }
         public string? Categoria { get; set; }
+        public int ProcedimientoId { get; set; }
+        public string? ProcedimientoNombre { get; set; }
+
     }
 }

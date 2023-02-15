@@ -13,17 +13,34 @@ namespace InventarioService.Repository
             _context = context;
         }
 
-        public void CreateBien(int enumeradoId, BienPatrimonial bien)
+        //public void CreateBien(int enumeradoId, BienPatrimonial bien)
+        //{
+        //    if (bien == null)
+        //    { 
+        //        throw new ArgumentNullException(nameof(bien));                
+        //    }
+        //    var categoria = _context.Enumerados.Where(p => p.Id == enumeradoId)
+        //        .Select(x=>x.Valor).Single();
+        //    bien.Categoria= categoria;
+        //    bien.EnumeradoId = enumeradoId;   
+
+        //    _context.BienesPatrimoniales.Add(bien);
+        //}
+        public void CreateBien(int enumeradoId, int procedimientoId, BienPatrimonial bien)
         {
             if (bien == null)
-            { 
-                throw new ArgumentNullException(nameof(bien));                
+            {
+                throw new ArgumentNullException(nameof(bien));
             }
             var categoria = _context.Enumerados.Where(p => p.Id == enumeradoId)
-                .Select(x=>x.Valor).Single();
-            bien.Categoria= categoria;
-            bien.EnumeradoId = enumeradoId;   
-            
+                .Select(x => x.Valor).Single();
+            var procedimientoString = _context.Procedimientos.Where(p => p.Id == procedimientoId)
+                .Select(x => x.NombreReferencial).Single();
+            bien.Categoria = categoria;           
+            bien.EnumeradoId = enumeradoId;
+            bien.ProcedimientoId = procedimientoId;
+            bien.ProcedimientoNombre = procedimientoString;
+
             _context.BienesPatrimoniales.Add(bien);
         }
 
@@ -34,6 +51,17 @@ namespace InventarioService.Repository
                 throw new ArgumentNullException(nameof(enumerado));
             }
             _context.Enumerados.Add(enumerado);
+        }
+
+        public void CreateProcedimiento(Procedimiento procedimiento)
+        {
+
+            if (procedimiento == null)
+            {
+                throw new ArgumentNullException(nameof(procedimiento));
+            }
+            _context.Procedimientos.Add(procedimiento);
+
         }
 
         public bool EnumeradoExists(int enumeradoId)
@@ -57,6 +85,11 @@ namespace InventarioService.Repository
             return _context.Enumerados.ToList();
         }
 
+        public IEnumerable<Procedimiento> GetAllProcedimientos()
+        {
+            return _context.Procedimientos.ToList();
+        }
+
         public BienPatrimonial GetBienById(int id)
         {
             return _context.BienesPatrimoniales.FirstOrDefault(p => p.Id == id);
@@ -64,9 +97,28 @@ namespace InventarioService.Repository
 
         public IEnumerable<BienPatrimonial> GetBienesForEnumerados(int enumeradoId)
         {
-            return _context.BienesPatrimoniales
+            var retornito = _context.BienesPatrimoniales
                 .Where(c => c.EnumeradoId == enumeradoId)
                 .OrderBy(c => c.Enumerado.Valor);
+            return retornito;
+        }
+
+        public IEnumerable<BienPatrimonial> GetBienesForProcedimientos(int procedimientoId)
+        {
+            var retornito = _context.BienesPatrimoniales
+                .Where(c => c.ProcedimientoId == procedimientoId)
+                .OrderBy(c => c.Procedimiento.NombreReferencial);
+            return retornito;
+        }
+
+        public Procedimiento GetProcedimientoById(int procedimientoId)
+        {
+            return _context.Procedimientos.FirstOrDefault(p => p.Id == procedimientoId);
+        }
+
+        public bool ProcedimientoExists(int procedimientoId)
+        {
+            return _context.Procedimientos.Any(p => p.Id == procedimientoId);
         }
 
         public bool Save()

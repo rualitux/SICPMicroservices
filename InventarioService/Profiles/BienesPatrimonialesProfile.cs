@@ -14,6 +14,8 @@ namespace InventarioService.Profiles
             CreateMap<EnumeradoPublishedDto, Enumerado>()
                 .ForMember(destino => destino.ExternalId, 
                 opt => opt.MapFrom(fuente => fuente.Id));
+            CreateMap<Procedimiento, ProcedimientoReadDto>();
+            CreateMap<ProcedimientoCreateDto, Procedimiento>();
         }
     }
 }

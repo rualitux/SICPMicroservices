@@ -16,6 +16,15 @@ namespace InventarioService.Interfaces
         IEnumerable<BienPatrimonial> GetBienesForEnumerados (int enumeradoId);
         IEnumerable<BienPatrimonial> GetAllBienes();
         BienPatrimonial GetBienById(int id);
-        void CreateBien(int enumeradoId,BienPatrimonial bien);
+        void CreateBien(int enumeradoId, int procedimientoId, BienPatrimonial bien);
+
+        //Procedimientos
+        IEnumerable<BienPatrimonial> GetBienesForProcedimientos(int procedimientoId);
+
+        IEnumerable<Procedimiento> GetAllProcedimientos();
+        void CreateProcedimiento(Procedimiento procedimiento);
+        bool ProcedimientoExists(int procedimientoId);
+        Procedimiento GetProcedimientoById(int procedimientoId);
+
     }
 }

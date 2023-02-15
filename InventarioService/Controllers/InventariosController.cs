@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace InventarioService.Controllers
 {
     [ApiController]
-    [Route("api/i/enumerados/{enumeradoId}/[controller]")]
+    //[Route("api/i/enumerados/{enumeradoId}/[controller]")]
+    [Route("api/i/[controller]")]
     public class InventariosController : ControllerBase
     {
         private readonly IBienPatrimonialRepository _repository;
@@ -40,17 +41,51 @@ namespace InventarioService.Controllers
             return NotFound();
 
         }
-        
-        [HttpPost(Name = "CrearBienPorEnumerado")]
-        public ActionResult<BienPatrimonialReadDto> CrearBienPorEnumerado(int enumeradoId, BienPatrimonialCreateDto bienCreateDto)
+
+        [HttpGet("c/{enumeradoId}", Name = "GetBienesByCategoria")]
+        public ActionResult<IEnumerable<BienPatrimonialReadDto>> GetBienesByCategoria(int enumeradoId)
         {
-            Console.WriteLine($"Creando para categoría: {enumeradoId}");
+            Console.WriteLine($"--> entró a GetBienesByCategoria: {enumeradoId}");
             if (!_repository.EnumeradoExists(enumeradoId))
             {
                 return NotFound();
             }
+            var bienes = _repository.GetBienesForEnumerados(enumeradoId);
+            return Ok(_mapper.Map<IEnumerable<BienPatrimonialReadDto>>(bienes));
+
+
+        }
+
+        [HttpGet("p/{procedimientoId}", Name = "GetBienesByProcedimiento")]
+        public ActionResult<IEnumerable<BienPatrimonialReadDto>> GetBienesByProcedimiento(int procedimientoId)
+        {
+            Console.WriteLine($"--> entró a GetBienesByProcedimiennto: {procedimientoId}");
+            if (!_repository.ProcedimientoExists(procedimientoId))
+            {
+                return NotFound();
+            }
+            var bienes = _repository.GetBienesForProcedimientos(procedimientoId);
+            return Ok(_mapper.Map<IEnumerable<BienPatrimonialReadDto>>(bienes));
+
+
+        }
+
+        [HttpPost("{enumeradoId}/{procedimientoId}", Name = "CrearBienPorEnumerado")]
+        public ActionResult<BienPatrimonialReadDto> CrearBienPorEnumerado(int enumeradoId, int procedimientoId, BienPatrimonialCreateDto bienCreateDto)
+        {
+            Console.WriteLine($"Creando para categoría: {enumeradoId}");
+            if (!_repository.EnumeradoExists(enumeradoId))
+            {
+                Console.WriteLine("No existe enumerado categoría");
+                return NotFound();
+            }
+            if (!_repository.ProcedimientoExists(procedimientoId))
+            {
+                Console.WriteLine("No existe enumerado procedimiento");
+                return NotFound();
+            }
             var bien = _mapper.Map<BienPatrimonial>(bienCreateDto);
-            _repository.CreateBien(enumeradoId, bien);
+            _repository.CreateBien(enumeradoId, procedimientoId, bien);
             _repository.Save();
             Console.WriteLine("Hasta aquí guardó jiji");
             var bienReadDto = _mapper.Map<BienPatrimonialReadDto>(bien);
