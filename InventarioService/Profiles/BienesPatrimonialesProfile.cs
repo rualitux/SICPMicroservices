@@ -16,6 +16,12 @@ namespace InventarioService.Profiles
                 opt => opt.MapFrom(fuente => fuente.Id));
             CreateMap<Procedimiento, ProcedimientoReadDto>();
             CreateMap<ProcedimientoCreateDto, Procedimiento>();
+            CreateMap<Area, AreaReadDto>();
+            CreateMap<AreaCreateDto, Area>();
+            CreateMap<Inventario, InventarioReadDto>();
+            CreateMap<InventarioCreateDto, Inventario>();
+            CreateMap<ProcedimientoBien, ProcedimientoBienReadDto>();
+            CreateMap<ProcedimientoBienCreateDto, ProcedimientoBien>();
         }
     }
 }
