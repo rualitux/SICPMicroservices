@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option csharp_namespace = "EnumeradoService";
+
+service GrpcEnumerado{
+    rpc GetAllEnumerados (GetAllRequest) returns (EnumeradoResponse);
+}
+
+message GetAllRequest {}
+
+message GrpcEnumeradoModel {
+    int32 enumeradoId = 1;
+    string descripcion = 2;
+    string valor = 3;
+}
+message EnumeradoResponse {
+    repeated GrpcEnumeradoModel enumerado = 1;
+}

@@ -11,6 +11,10 @@ namespace EnumeradoService.Profiles
             CreateMap<Enumerado, EnumeradoReadDto>();
             CreateMap<EnumeradoCreateDto, Enumerado>();
             CreateMap<EnumeradoReadDto, EnumeradoPublishedDto>();
+            CreateMap<Enumerado, GrpcEnumeradoModel>()
+                .ForMember(destino => destino.EnumeradoId, opt => opt.MapFrom(fuente => fuente.Id))
+                .ForMember(destino => destino.Descripcion, opt => opt.MapFrom(fuente => fuente.Descripcion))
+                .ForMember(destino => destino.Valor, opt => opt.MapFrom(fuente => fuente.Valor));
         }
     }
 }

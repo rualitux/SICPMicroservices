@@ -20,7 +20,8 @@ namespace EnumeradoService.Data
                         new Enumerado() { Valor = "Animal", Descripcion = "Animales" },
                         new Enumerado() { Valor = "Perro", Descripcion = "Animal Canino" },
                         new Enumerado() { Valor = "Oficina", Descripcion = "Artículos de oficina" },
-                        new Enumerado() { Valor = "Alta", Descripcion = "Procedimiento de Alta de bienes patrimoniales" }
+                        new Enumerado() { Valor = "Alta", Descripcion = "Procedimiento de Alta de bienes patrimoniales" },
+                        new Enumerado() { Valor = "Baja (prueba Grpc)", Descripcion = "Procedimiento de Alta de bienes patrimoniales" }
 
                     );
                 context.SaveChanges();

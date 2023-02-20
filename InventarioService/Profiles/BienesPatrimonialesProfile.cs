@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EnumeradoService;
 using InventarioService.Dtos;
 using InventarioService.Models;
 
@@ -22,6 +23,13 @@ namespace InventarioService.Profiles
             CreateMap<InventarioCreateDto, Inventario>();
             CreateMap<ProcedimientoBien, ProcedimientoBienReadDto>();
             CreateMap<ProcedimientoBienCreateDto, ProcedimientoBien>();
+            //ParaGrpc
+            CreateMap<GrpcEnumeradoModel, Enumerado>()
+                .ForMember(destino => destino.ExternalId, opt => opt.MapFrom(fuente => fuente.EnumeradoId))
+                .ForMember(destino => destino.Descripcion, opt => opt.MapFrom(fuente => fuente.Descripcion))
+                .ForMember(destino => destino.Valor, opt => opt.MapFrom(fuente => fuente.Valor))
+                //Ignorando el mapeo de esta colección porsiacaso
+                .ForMember(destino => destino.BienesPatrimoniales, opt => opt.Ignore());
         }
     }
 }

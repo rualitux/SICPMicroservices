@@ -1,4 +1,5 @@
 using EnumeradoService.AsyncDataServices;
+using EnumeradoService.AsyncDataServices.Grpc;
 using EnumeradoService.Data;
 using EnumeradoService.Interfaces;
 using EnumeradoService.Repository;
@@ -12,6 +13,7 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseInMemoryDatabase("InMem"));
 builder.Services.AddScoped<IEnumeradoRepository, EnumeradoRepository>();
 builder.Services.AddHttpClient<IInventarioDataClient, HttpInventarioDataClient>();
+builder.Services.AddGrpc();
 //una conexión para toda la aplicación
 builder.Services.AddSingleton<IMessageBusClient, MessageBusClient>();
 builder.Services.AddControllers();
@@ -29,10 +31,19 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseRouting();
 app.UseAuthorization();
+app.UseEndpoints(endpoints =>
+{
+    app.MapControllers();
+    app.MapGrpcService<GrpcEnumeradoService>();
+    app.MapGet("/protos/enumerados.proto", async context =>
+    {
+        await context.Response.WriteAsync(File.ReadAllText("Protos/enumerados.proto"));
+    }
+    );
+});
 
-app.MapControllers();
 DbCalata.PrepPopulation(app);
 
 app.Run();

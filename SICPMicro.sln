@@ -16,6 +16,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K8S", "K8S", "{4E31DACE-294
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovimientoService", "MovimientoService\MovimientoService.csproj", "{200F2478-CA5E-467D-90B8-BBFB6DE7378D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Protos", "Protos", "{A73DA297-02FD-4F42-AE2A-8BDB16DAA4C4}"
+	ProjectSection(SolutionItems) = preProject
+		Protos\enumerados.proto = Protos\enumerados.proto
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

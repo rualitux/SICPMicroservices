@@ -29,4 +29,7 @@ spec:
     protocol: TCP
     port: 80
     targetPort: 80
-     
+  - name: enumeradosgrpc
+    protocol: TCP
+    port: 1427
+    targetPort: 1427
